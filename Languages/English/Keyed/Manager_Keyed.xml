@@ -188,8 +188,8 @@
   <FML.WoolHeader>Progress till next shearing</FML.WoolHeader>
   <FML.Yields>Expected yield: {0} x{1}</FML.Yields>
   <FML.TrainYoung>Train young animals</FML.TrainYoung>
-  <FML.SendToSlaughterArea>Restrict animals marked for slaughter</FML.SendToSlaughterArea>
-  <FML.SendToSlaughterArea.Tip>Restrict animals designated for slaughtering to a specific area</FML.SendToSlaughterArea.Tip>
+  <FML.SendToSlaughterArea>Restrict animals ready for slaughter, shearing, or milking.</FML.SendToSlaughterArea>
+  <FML.SendToSlaughterArea.Tip>Restrict animals ready for shearing, milking, or designated for slaughtering, to a specific area</FML.SendToSlaughterArea.Tip>
   <FM.Livestock.TargetCountsHeader>Target counts</FM.Livestock.TargetCountsHeader>
   <FM.Livestock.AreaRestrictionsHeader>Area restrictions</FM.Livestock.AreaRestrictionsHeader>
   <FM.Livestock.TrainingHeader>Training</FM.Livestock.TrainingHeader>

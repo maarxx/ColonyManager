@@ -210,33 +210,40 @@ namespace FluffyManager
 
         private void DoAreaRestrictions( ref bool actionTaken )
         {
-            if ( RestrictToArea )
-                for ( var i = 0; i < Utilities_Livestock.AgeSexArray.Length; i++ )
-                    foreach ( var p in Trigger.pawnKind.GetTame( manager, Utilities_Livestock.AgeSexArray[i] ) )
+
+            if (RestrictToArea)
+                for (var i = 0; i < Utilities_Livestock.AgeSexArray.Length; i++)
+                    foreach (var p in Trigger.pawnKind.GetTame(manager, Utilities_Livestock.AgeSexArray[i]))
+                    {
+                        CompMilkable cm = p.TryGetComp<CompMilkable>();
+                        CompShearable cs = p.TryGetComp<CompShearable>();
                         // slaughter
-                        if ( SendToSlaughterArea &&
-                             manager.map.designationManager.DesignationOn( p, DesignationDefOf.Slaughter ) != null )
+                        if (SendToSlaughterArea && (
+                             manager.map.designationManager.DesignationOn(p, DesignationDefOf.Slaughter) != null
+                             || (cm != null && cm.Fullness > 0.95f)
+                             || (cs != null && cs.Fullness > 0.95f)))
                         {
-                            actionTaken                      = p.playerSettings.AreaRestriction != SlaughterArea;
+                            actionTaken = p.playerSettings.AreaRestriction != SlaughterArea;
                             p.playerSettings.AreaRestriction = SlaughterArea;
                         }
 
                         // training
-                        else if ( SendToTrainingArea && p.training.NextTrainableToTrain() != null )
+                        else if (SendToTrainingArea && p.training.NextTrainableToTrain() != null)
                         {
-                            if ( p.playerSettings.AreaRestriction != TrainingArea )
+                            if (p.playerSettings.AreaRestriction != TrainingArea)
                             {
-                                actionTaken                      = true;
+                                actionTaken = true;
                                 p.playerSettings.AreaRestriction = TrainingArea;
                             }
                         }
 
                         // all
-                        else if ( p.playerSettings.AreaRestriction != RestrictArea[i] )
+                        else if (p.playerSettings.AreaRestriction != RestrictArea[i])
                         {
-                            actionTaken                      = true;
+                            actionTaken = true;
                             p.playerSettings.AreaRestriction = RestrictArea[i];
                         }
+                    }
         }
 
         public void DoFollowSettings( ref bool actionTaken )
