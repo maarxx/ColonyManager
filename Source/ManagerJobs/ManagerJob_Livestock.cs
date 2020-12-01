@@ -29,6 +29,7 @@ namespace FluffyManager
         public                  bool             RespectBonds = true;
         public                  List<Area>       RestrictArea;
         public                  bool             RestrictToArea;
+        public                  bool             SendToSickArea;
         public                  bool             SendToMilkingArea;
         public                  bool             SendToShearingArea;
         public                  bool             SendToSlaughterArea;
@@ -36,6 +37,7 @@ namespace FluffyManager
         public                  bool             SendToTrainingArea;
         public                  bool             SetFollow;
         public                  Area             ShearArea;
+        public                  Area             SickArea;
         public                  Area             SlaughterArea;
         public                  Area             TameArea;
         public                  Area             HungryArea;
@@ -80,6 +82,10 @@ namespace FluffyManager
             // set up sending animals designated for slaughter to an area (freezer)
             SendToSlaughterArea = false;
             SlaughterArea       = null;
+
+            // set up sick area
+            SendToSickArea = false;
+            SickArea = null;
 
             // set up milking area
             SendToMilkingArea = false;
@@ -312,6 +318,7 @@ namespace FluffyManager
 
             // settings, references first!
             Scribe_References.Look( ref TameArea, "TameArea" );
+            Scribe_References.Look( ref SickArea, "SickArea" );
             Scribe_References.Look( ref SlaughterArea, "SlaughterArea" );
             Scribe_References.Look( ref MilkArea, "MilkArea" );
             Scribe_References.Look( ref ShearArea, "ShearArea" );
@@ -329,6 +336,7 @@ namespace FluffyManager
             Scribe_Values.Look( ref ButcherBonded, "ButcherBonded" );
             Scribe_Values.Look( ref RestrictToArea, "RestrictToArea" );
             Scribe_Values.Look( ref SendToSlaughterArea, "SendToSlaughterArea" );
+            Scribe_Values.Look( ref SendToSickArea, "SendToSickArea" );
             Scribe_Values.Look( ref SendToMilkingArea, "SendToMilkingArea" );
             Scribe_Values.Look( ref SendToShearingArea, "SendToShearingArea" );
             Scribe_Values.Look( ref SendToTrainingArea, "SendToTrainingArea" );
@@ -516,6 +524,16 @@ namespace FluffyManager
                     {
                         actionTaken                      = p.playerSettings.AreaRestriction != SlaughterArea;
                         p.playerSettings.AreaRestriction = SlaughterArea;
+                    }
+
+                    // sick
+                    else if (SendToSickArea && p.AnimalIsSick())
+                    {
+                        if (p.playerSettings.AreaRestriction != SickArea)
+                        {
+                            actionTaken = true;
+                            p.playerSettings.AreaRestriction = SickArea;
+                        }
                     }
 
                     // hungry
